@@ -25,7 +25,7 @@ class ProspectsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.prospects.create');
     }
 
     /**
