@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex">
@@ -13,43 +19,43 @@
                                 Actions
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="{{ route('admin.prospects.create') }}">Create Prospect</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.prospects.create') }}">Create
+                                        Prospect</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <hr>
-
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{session('success')}}
-                    </div>
-                @endif
-
-                @if ($prospects->count())
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Created At</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($prospects as $prospect)
-                                <tr>
-                                    <td>{{$prospect->name}}</td>
-                                    <td>{{$prospect->email}}</td>
-                                    <td>{{$prospect->prettyCreated}}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
             </div>
         </div>
+
+        @if ($prospects->count())
+            {{ $prospects->links() }}
+            @foreach ($prospects as $prospect)
+                @include('admin.prospects.partials.prospect-card',['prospect'=>$prospect])
+            @endforeach
+        @endif
+        {{-- @if ($prospects->count())
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($prospects as $prospect)
+                        <tr>
+                            <td>{{ $prospect->name }}</td>
+                            <td>{{ $prospect->email }}</td>
+                            <td>{{ $prospect->prettyCreated }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif --}}
     </div>
 @endsection
