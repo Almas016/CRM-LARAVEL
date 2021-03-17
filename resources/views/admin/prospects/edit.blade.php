@@ -22,7 +22,14 @@
                                 <li><a class="dropdown-item"
                                         href="{{ route('admin.prospects.show', ['prospect' => $prospect->id]) }}">View
                                         Prospect</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item text-danger" href="#" onclick="deleteProspect()">Delete
+                                        Prospect</a></li>
+                                <form action="{{ route('admin.prospects.delete', $prospect->id) }}" id="delete-prospect-form" style="display:none" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </ul>
                         </div>
                     </div>
@@ -37,15 +44,24 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         @if ($prospect->profile_image)
-                            <img src="{{ Storage::url($prospect->profile_image) }}" alt="">
+                            <img src="{{ Storage::url($prospect->profile_image) }}" style="max-width:100%" alt="">
                         @else
                             <img src="/images/user.png" style="max-width:100%" alt="">
                         @endif
                         <hr>
-                        <button class="btn btn-outline-primary btn-sm btn-block">New Profile Image</button>
-                        <button class="btn btn-outline-danger btn-sm btn-block"><i class="fas fa-trash"></i>Delete Profile
-                            Image</button>
-
+                        <button class="btn btn-outline-primary btn-sm btn-block" data-toggle="modal"
+                            data-target="#updateProfileImageModal">New Profile Image</button>
+                        @if ($prospect->profile_image)
+                            <button class="btn btn-outline-danger btn-sm btn-block" onclick="deleteProfileImage()"><i
+                                    class="fas fa-trash"></i>Delete
+                                Profile
+                                Image</button>
+                            <form action="{{ route('admin.prospects.delete.profile-image', $prospect->id) }}"
+                                method="POST" enctype="multipart/form-data" id="delete-profile-image-form">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -104,4 +120,51 @@
 
         {{-- Update or add their address and contact details --}}
     </div>
+
+    <!-- Modal updating profile image -->
+    <div class="modal fade" id="updateProfileImageModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Profile Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.prospects.update.profile-image', $prospect->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="">Choose an Image</label>
+                            <input type="file" class="form-control-file" name="image">
+                        </div>
+
+                        <button class="btn btn-primary float-right">Update Profile Image</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('footer-scripts')
+    <script>
+        function deleteProfileImage() {
+            var r = confirm("Are you sure you want to delete the profile image?")
+            if (r) {
+                document.querySelector('form#delete-profile-image-form').submit()
+            }
+        }
+
+        function deleteProspect() {
+            var r = confirm("Are you sure you want to delete this prospect? This can't be undone!")
+
+            if (r) {
+                document.querySelector('form#delete-prospect-form').submit()
+            }
+        }
+
+    </script>
+@endpush

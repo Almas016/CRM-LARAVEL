@@ -12,6 +12,10 @@ Route::get('{prospect}', [ProspectsController::class, 'show'])->where('prospect'
 Route::post('/', [ProspectsController::class, 'store'])->name('store');
 
 Route::put('{prospect}', [ProspectsController::class, 'update'])->where('prospect', '[0-9]+')->name('update');
+Route::put('{prospect}/profile-image', [ProspectsController::class, 'updateProfileImage'])->where('prospect', '[0-9]+')->name('update.profile-image');
+Route::delete('{prospect}/profile-image', [ProspectsController::class, 'destroyProfileImage'])->where('prospect', '[0-9]+')->name('delete.profile-image');
+Route::delete('{prospect}', [ProspectsController::class, 'destroy'])->where('prospect', '[0-9]+')->name('delete');
+
 
 Route::get('{prospect}/contact/create', [ProspectContactsController::class, 'create'])->where('prospect', '[0-9]+')->name('contacts.create');
 Route::post('{prospect}/contact', [ProspectContactsController::class, 'store'])->where('prospect', '[0-9]+')->name('contacts.store');
