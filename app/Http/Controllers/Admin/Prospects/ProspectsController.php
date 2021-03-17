@@ -6,6 +6,8 @@ use App\Models\Prospect;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Prospects\StoreProspectRequest;
+use App\Http\Requests\Prospects\UpdateProspectRequest;
+use App\Http\Requests\Prospects\Contacts\UpdateContactRequest;
 
 class ProspectsController extends Controller
 {
@@ -42,7 +44,7 @@ class ProspectsController extends Controller
             $path = $request->profile_image->store('public/prospects/profiles/images');
             $prospect->update(['profile_image'=>$path]);
         }
-        return redirect()->route('admin.prospects.dashboard')->with('success','Successfully created a New Prospect');
+        return redirect()->route('admin.prospects.contacts.create',$prospect->id)->with('success','Successfully created a New Prospect');
     }
 
     /**
@@ -51,9 +53,9 @@ class ProspectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Prospect $prospect)
     {
-        //
+        return $prospect->load('contact');
     }
 
     /**
@@ -74,9 +76,11 @@ class ProspectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProspectRequest $request, Prospect $prospect)
     {
-        //
+        $prospect->update($request->validated());
+        
+        return back()->with('success', 'Successfully updated prospect details!');
     }
 
     /**

@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex">
@@ -27,7 +32,7 @@
 
         {{-- Update their name, email and profile_image --}}
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-md-4">
                 {{-- Placeholder for image and option to change out just the image --}}
                 <div class="card mt-3">
                     <div class="card-body">
@@ -38,12 +43,13 @@
                         @endif
                         <hr>
                         <button class="btn btn-outline-primary btn-sm btn-block">New Profile Image</button>
-                        <button class="btn btn-outline-danger btn-sm btn-block"><i class="fas fa-trash"></i>Delete Profile Image</button>
+                        <button class="btn btn-outline-danger btn-sm btn-block"><i class="fas fa-trash"></i>Delete Profile
+                            Image</button>
 
                     </div>
                 </div>
             </div>
-            <div class="col-sm-8">
+            <div class="col-md-8">
                 <div class="card mt-3">
                     <div class="card-body">
                         <h5>Edit Personal Details</h5>
@@ -58,21 +64,41 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('admin.prospects.update',['prospect'=>$prospect->id]) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.prospects.update', $prospect->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
                                 <label for="">Name</label>
-                                <input type="text" class="form-control" name="name" value="{{ $prospect->name}}">
+                                <input type="text" class="form-control" name="name" value="{{ $prospect->name }}">
                             </div>
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <input type="email" class="form-control" name="email" value="{{ $prospect->email}}">
+                                <input type="email" class="form-control" name="email" value="{{ $prospect->email }}">
                             </div>
                             <button class="btn btn-primary float-right">Update Prospect</button>
                         </form>
                     </div>
                 </div>
+                {{-- Prospect details --}}
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5>Edit Contact Details</h5>
+                        <hr>
+                        @if ($prospect->contact)
+                            @include('admin.prospects.contacts.partials.edit-contact-form',['prospect_id' => $prospect->id,
+                            'contact' => $prospect->contact])
+                        @else
+                            <div class="d-flex">
+                                <div class="mx-auto">
+                                    <a href="{{ route('admin.prospects.contacts.create', $prospect->id) }}"
+                                        class="btn btn-outline-primary">Create Contact Details</a>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
             </div>
         </div>
 

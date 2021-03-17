@@ -17,7 +17,7 @@ class UserTableSeeder extends Seeder
         User::updateOrCreate(['id'=>1],[
             'name'=> 'Namazbayev Almas',
             'email' => 'test@root.com',
-            'password'=> '$2y$10$cvDE6uku0XuFPQN2KkYN/eKzmE.VhJ3P7y48fLfpZhC9Xriucp5J6'//password
+            'password'=> '$2y$10$idW8YLWDLEmTORRU9uUAD.Mgkt7Wea0TlRBF5WPiklLjOMMEtPb.G'//password
         ]);
     }
 }

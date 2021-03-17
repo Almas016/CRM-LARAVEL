@@ -3,7 +3,10 @@
         <div class="row">
             <div class="col-sm-3">
                 @if ($prospect->profile_image)
-                    <img src="{{ Storage::url($prospect->profile_image) }}" alt="">
+                    <img src="{{ Storage::url($prospect->profile_image) }}" style="max-width: 100%; max-height:100px;"
+                        alt="">
+                @else
+                    <img src="/images/user.png" style="max-width: 100%; max-height:100px;" alt="">
                 @endif
             </div>
             <div class="col-sm-6">
