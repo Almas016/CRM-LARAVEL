@@ -1,7 +1,7 @@
 <div class="card mt-3 prospect-card">
     <div class="card-body">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-md-2">
                 @if ($prospect->profile_image)
                     <img src="{{ Storage::url($prospect->profile_image) }}" style="max-width: 100%; max-height:100px;"
                         alt="">
@@ -9,9 +9,9 @@
                     <img src="/images/user.png" style="max-width: 100%; max-height:100px;" alt="">
                 @endif
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-md-8">
                 <h5>{{ $prospect->name }}</h5>
-                <ul>
+                <ul class="list-style-none">
                     <li>
                         <strong>Email: </strong>{{ $prospect->email }}
                     </li>
@@ -20,13 +20,19 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-md-2">
                 <div class="dropdown d-block">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
+                    <button class="btn btn-outline-secondary btn-block btn-sm dropdown-toggle" type="button"
                         id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
                         Actions
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item"
+                                href="{{ route('admin.prospects.edit', ['prospect' => $prospect->id]) }}">Edit</a>
+                        </li>
+                        <li><a class="dropdown-item"
+                                href="{{ route('admin.prospects.activities.dashboard', ['prospect' => $prospect->id]) }}">View Activity</a>
+                        </li>
                         <li><a class="dropdown-item"
                                 href="{{ route('admin.prospects.edit', ['prospect' => $prospect->id]) }}">Edit</a>
                         </li>

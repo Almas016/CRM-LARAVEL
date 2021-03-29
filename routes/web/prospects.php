@@ -20,3 +20,5 @@ Route::delete('{prospect}', [ProspectsController::class, 'destroy'])->where('pro
 Route::get('{prospect}/contact/create', [ProspectContactsController::class, 'create'])->where('prospect', '[0-9]+')->name('contacts.create');
 Route::post('{prospect}/contact', [ProspectContactsController::class, 'store'])->where('prospect', '[0-9]+')->name('contacts.store');
 Route::put('{prospect}/contact', [ProspectContactsController::class, 'update'])->where('prospect', '[0-9]+')->name('contacts.update');
+
+Route::prefix('activities')->name('activities.')->group(base_path('routes/web/prospects/activities.php'));
