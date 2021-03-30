@@ -33,4 +33,4 @@ class CreateActivitiesTable extends Migration
     {
         Schema::dropIfExists('prospect_activities');
     }
-}
+}   

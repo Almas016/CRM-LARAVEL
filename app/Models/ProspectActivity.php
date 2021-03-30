@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Models\ModelDatesTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProspectActivity extends Model
 {
-    use HasFactory;
+    use HasFactory, ModelDatesTrait;
 
     protected $guarded = [];  
 
@@ -18,6 +19,6 @@ class ProspectActivity extends Model
 
     public function documents()
     {
-        return $this->hasMany(\App\Models\ProspectDocument::class, 'activity_id', 'id');
+        return $this->hasMany(\App\Models\ProspectDocument::class, 'id');
     }
 }
